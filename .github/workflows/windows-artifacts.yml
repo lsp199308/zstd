@@ -1,6 +1,7 @@
 name: windows-artifacts
 
 on:
+  workflow_dispatch:  # 允许手动触发工作流
   push:
     branches: [ test_artifacts, win_artifacts ]
   release:
@@ -51,8 +52,8 @@ jobs:
         7z a -tzip -mx9 zstd-${{ github.ref_name }}-${{matrix.ziparch}}.zip zstd-${{ github.ref_name }}-${{matrix.ziparch}}/
         cd ..
 
-    - name: Publish zstd-$VERSION-${{matrix.ziparch}}.zip
+    - name: Publish zstd-${{ github.ref_name }}-${{ matrix.ziparch }}.zip
       uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # tag=v4.3.1
       with:
-        path: ${{ github.workspace }}/zstd-${{ github.ref_name }}-${{matrix.ziparch}}.zip
-        name: zstd-${{ github.ref_name }}-${{matrix.ziparch}}.zip
+        path: ${{ github.workspace }}/zstd-${{ github.ref_name }}-${{ matrix.ziparch }}.zip
+        name: zstd-${{ github.ref_name }}-${{ matrix.ziparch }}.zip
